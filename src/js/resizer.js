@@ -115,35 +115,28 @@
       this._ctx.fillRect(
           displX,
           displY,
-          this._container.width / 2 - this._resizeConstraint.side / 2 -this._ctx.lineWidth,
+          this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
           this._container.height
       );
       this._ctx.fillRect(
-          displX + this._container.width / 2 - this._resizeConstraint.side / 2 -this._ctx.lineWidth,
+          displX + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
           displY,
-          this._container.width,
-          this._container.height / 2 - this._resizeConstraint.side / 2 -this._ctx.lineWidth
+          this._container.width-(this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
+          this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth
       );
 
       this._ctx.fillRect(
-          displX + this._container.width / 2 - this._resizeConstraint.side / 2 -this._ctx.lineWidth,
+          displX + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
           displY + this._container.height,
-          this._container.width,
+          this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
           - this._container.height / 2 + this._resizeConstraint.side / 2  - this._ctx.lineWidth / 2
       );
       this._ctx.fillRect(
           displX + this._container.width,
-          displY + this._container.height / 2 - this._resizeConstraint.side / 2 -this._ctx.lineWidth,
+          displY + this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
           - this._container.width / 2 + this._resizeConstraint.side / 2  - this._ctx.lineWidth / 2,
          this._resizeConstraint.side + this._ctx.lineWidth / 2
       );
-    //   this._ctx.fillRect(
-    //       displX + this._container.width,
-    //       displY + this._container.height,
-    //       this._container.width,
-    //       - this._container.height / 2 + this._resizeConstraint.side / 2  - this._ctx.lineWidth / 2
-    //   );
-
 
 
       // Отрисовка прямоугольника, обозначающего область изображения после
@@ -161,6 +154,15 @@
       // некорректно сработает даже очистка холста или нужно будет использовать
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
+
+      this._ctx.fillStyle = "#fff";
+      this._ctx.font = "12px Tahoma";
+      this._ctx.textAlign = "center";
+      this._ctx.fillText(
+          " "+this._image.naturalWidth+" x "+this._image.naturalHeight+" ",
+          this._container.width / 2,
+          this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth - 12,
+          this._resizeConstraint.side);
     },
 
     /**
