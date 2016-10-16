@@ -1,3 +1,4 @@
+
 'use strict';
 
 (function() {
@@ -111,7 +112,7 @@
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
-      this._ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
       this._ctx.fillRect(
           displX,
           displY,
@@ -121,7 +122,7 @@
       this._ctx.fillRect(
           displX + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
           displY,
-          this._container.width-(this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
+          this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
           this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth
       );
 
@@ -129,12 +130,12 @@
           displX + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
           displY + this._container.height,
           this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
-          - this._container.height / 2 + this._resizeConstraint.side / 2  - this._ctx.lineWidth / 2
+          -this._container.height / 2 + this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2
       );
       this._ctx.fillRect(
           displX + this._container.width,
           displY + this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
-          - this._container.width / 2 + this._resizeConstraint.side / 2  - this._ctx.lineWidth / 2,
+          -this._container.width / 2 + this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2,
          this._resizeConstraint.side + this._ctx.lineWidth / 2
       );
 
@@ -148,27 +149,26 @@
     //       this._resizeConstraint.side - this._ctx.lineWidth / 2);
 // Рамка в виде ломанной
 
-var startX1 = (-this._resizeConstraint.side / 2);
-var startY1 = (-this._resizeConstraint.side / 2);
-var endX1 = this._resizeConstraint.side / 2;
-var endY1 = this._resizeConstraint.side / 2;
-var deltaY1 = 5;
-var deltaX1 = 5;
-var startX2 = (-this._resizeConstraint.side / 2);
-var startY2 = (-this._resizeConstraint.side / 2);
-var endX2= this._resizeConstraint.side / 2;
-var endY2 = this._resizeConstraint.side / 2;
-var deltaY2 = 5;
-var deltaX2 = 5;
-this._ctx.strokeStyle = 'yellow';
- this._ctx.lineWidth = 3;
+      var startX1 = Math.floor(-this._resizeConstraint.side / 2);
+      var startY1 = Math.floor(-this._resizeConstraint.side / 2);
+      var endX1 = Math.floor(this._resizeConstraint.side / 2);
+      var endY1 = Math.floor(this._resizeConstraint.side / 2);
+      var deltaY1 = 5;
+      var deltaX1 = 5;
+      var startX2 = Math.floor(-this._resizeConstraint.side / 2);
+      var startY2 = Math.floor(-this._resizeConstraint.side / 2);
+      var endX2 = Math.floor(this._resizeConstraint.side / 2);
+      var deltaY2 = 5;
+      var deltaX2 = 5;
+      this._ctx.strokeStyle = 'yellow';
+      this._ctx.lineWidth = 3;
 
-    while(startX1 <= endX1 - 5 ) {
-        if (startY1 * -1 % 2 === 0)  {
-            deltaY1 *= -1;
-         }
-        if (startX2 * -1 % 2 === 0) {
-            deltaX2 *= -1;
+      while(startX1 <= endX1 - 5 ) {
+        if (Math.abs(startY1) % 2 === 0) {
+          deltaY1 *= -1;
+        }
+        if (Math.abs(startX2) % 2 === 0) {
+          deltaX2 *= -1;
         }
         this._ctx.beginPath();
         this._ctx.moveTo(startX1, startY1);
@@ -198,7 +198,7 @@ this._ctx.strokeStyle = 'yellow';
         startY2 = startY2 + deltaY2;
         deltaY1 = 5;
         deltaX2 = 5;
-    }
+      }
 
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
@@ -208,11 +208,11 @@ this._ctx.strokeStyle = 'yellow';
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
 
-      this._ctx.fillStyle = "#fff";
-      this._ctx.font = "12px Tahoma";
-      this._ctx.textAlign = "center";
+      this._ctx.fillStyle = '#fff';
+      this._ctx.font = '12px Tahoma';
+      this._ctx.textAlign = 'center';
       this._ctx.fillText(
-          " "+this._image.naturalWidth+" x "+this._image.naturalHeight+" ",
+          ' ' + this._image.naturalWidth + ' x ' + this._image.naturalHeight + ' ',
           this._container.width / 2,
           this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth - 12,
           this._resizeConstraint.side);
