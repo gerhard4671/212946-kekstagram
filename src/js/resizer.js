@@ -89,14 +89,14 @@
       // чего-либо с другой обводкой.
 
       // Толщина линии.
-      this._ctx.lineWidth = 6;
+    //   this._ctx.lineWidth = 6;
       // Цвет обводки.
-      this._ctx.strokeStyle = '#ffe753';
+    //   this._ctx.strokeStyle = '#ffe753';
       // Размер штрихов. Первый элемент массива задает длину штриха, второй
       // расстояние между соседними штрихами.
-      this._ctx.setLineDash([15, 10]);
+    //   this._ctx.setLineDash([15, 10]);
       // Смещение первого штриха от начала линии.
-      this._ctx.lineDashOffset = 7;
+    //   this._ctx.lineDashOffset = 7;
 
       // Сохранение состояния канваса.
       this._ctx.save();
@@ -146,6 +146,33 @@
           (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
           this._resizeConstraint.side - this._ctx.lineWidth / 2,
           this._resizeConstraint.side - this._ctx.lineWidth / 2);
+// Рамка в виде точек
+    var radius = 3;
+    var startAngle = 0;
+    var endAngle = 2*Math.PI;
+    var anticlockwise = true;
+    var startX = (-this._resizeConstraint.side / 2);
+    var endX = this._resizeConstraint.side/2;
+    var startY =  (-this._resizeConstraint.side / 2);
+    var endY =  this._resizeConstraint.side / 2;
+    this._ctx.fillStyle ="yellow";
+
+    while (startX <= endX && startY <= endY) {
+        this._ctx.beginPath();
+        this._ctx.arc(startX, (-this._resizeConstraint.side / 2), radius, startAngle, endAngle, anticlockwise);
+        this._ctx.fill();
+        this._ctx.beginPath();
+        this._ctx.arc(startX, endY, radius, startAngle, endAngle, anticlockwise);
+        this._ctx.fill();
+        this._ctx.beginPath();
+        this._ctx.arc( (-this._resizeConstraint.side / 2), startY, radius, startAngle, endAngle, anticlockwise);
+        this._ctx.fill();
+        this._ctx.beginPath();
+        this._ctx.arc(endX, startY, radius, startAngle, endAngle, anticlockwise);
+        this._ctx.fill();
+        startX += 10;
+        startY +=10;
+    }
 
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
