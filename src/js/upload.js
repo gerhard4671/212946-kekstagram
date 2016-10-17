@@ -72,36 +72,6 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
-  //  var sizeChange = function (leftPos, topPos, size, imageWidth, imageHeight) {
-  //    leftPos.onchange = function(evt) {
-  //      if ( leftPos + size > imageWidth || topPos + size > imageHeight ||  topPos < 0 || leftPos < 0) {
-  //        submitBtn.disabled = true;
-  //        return false;
-  //      } else {
-  //      submitBtn.disabled = false;
-  //      return true;
-  //      }
-  //    };
-  //    topPos.onchange = function(evt) {
-  //      if ( leftPos + size > imageWidth || topPos + size > imageHeight ||  topPos < 0 || leftPos < 0) {
-  //        submitBtn.disabled = true;
-  //        return false;
-  //      } else {
-  //      submitBtn.disabled = false;
-  //      return true;
-  //      }
-  //    };
-  //    size.onchange = function(evt) {
-  //      if ( leftPos + size > imageWidth || topPos + size > imageHeight ||  topPos < 0 || leftPos < 0) {
-  //        submitBtn.disabled = true;
-  //        return false;
-  //      } else {
-  //      submitBtn.disabled = false;
-  //      return true;
-  //      }
-  //    };
-  //  };
-
 
   var resizeFormIsValid = function() {
     var leftPos = +resizeForm.elements.x.value;
@@ -117,7 +87,6 @@
     return true;
   };
 
-
   /**
    * Форма загрузки изображения.
    * @type {HTMLFormElement}
@@ -130,20 +99,12 @@
    */
   var resizeForm = document.forms['upload-resize'];
   var submitBtn = resizeForm.elements.fwd;
-    // Задание по формам
-
-
-
-
-
 
   /**
    * Форма добавления фильтра.
    * @type {HTMLFormElement}
    */
   var filterForm = document.forms['upload-filter'];
-
-
 
   /**
    * @type {HTMLImageElement}
