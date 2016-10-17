@@ -41,6 +41,7 @@
    */
   var currentResizer;
 
+
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
    * изображением.
@@ -71,9 +72,51 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+  //  var sizeChange = function (leftPos, topPos, size, imageWidth, imageHeight) {
+  //    leftPos.onchange = function(evt) {
+  //      if ( leftPos + size > imageWidth || topPos + size > imageHeight ||  topPos < 0 || leftPos < 0) {
+  //        submitBtn.disabled = true;
+  //        return false;
+  //      } else {
+  //      submitBtn.disabled = false;
+  //      return true;
+  //      }
+  //    };
+  //    topPos.onchange = function(evt) {
+  //      if ( leftPos + size > imageWidth || topPos + size > imageHeight ||  topPos < 0 || leftPos < 0) {
+  //        submitBtn.disabled = true;
+  //        return false;
+  //      } else {
+  //      submitBtn.disabled = false;
+  //      return true;
+  //      }
+  //    };
+  //    size.onchange = function(evt) {
+  //      if ( leftPos + size > imageWidth || topPos + size > imageHeight ||  topPos < 0 || leftPos < 0) {
+  //        submitBtn.disabled = true;
+  //        return false;
+  //      } else {
+  //      submitBtn.disabled = false;
+  //      return true;
+  //      }
+  //    };
+  //  };
+
+
   var resizeFormIsValid = function() {
+    var leftPos = +resizeForm.elements.x.value;
+    var topPos = +resizeForm.elements.y.value;
+    var size = +resizeForm.elements.size.value;
+    var imageWidth = currentResizer._image.naturalWidth;
+    var imageHeight = currentResizer._image.naturalHeight;
+
+    if ( leftPos + size > imageWidth || topPos + size > imageHeight || topPos < 0 || leftPos < 0) {
+      submitBtn.disabled = true;
+      return false;
+    }
     return true;
   };
+
 
   /**
    * Форма загрузки изображения.
@@ -86,12 +129,21 @@
    * @type {HTMLFormElement}
    */
   var resizeForm = document.forms['upload-resize'];
+  var submitBtn = resizeForm.elements.fwd;
+    // Задание по формам
+
+
+
+
+
 
   /**
    * Форма добавления фильтра.
    * @type {HTMLFormElement}
    */
   var filterForm = document.forms['upload-filter'];
+
+
 
   /**
    * @type {HTMLImageElement}
@@ -176,13 +228,21 @@
    * @param {Event} evt
    */
   resizeForm.onreset = function(evt) {
-    evt.preventDefault();
 
-    cleanupResizer();
-    updateBackground();
+    if (!resizeFormIsValid()) {
+      submitBtn.disabled = false;
+      resizeForm.elements.x.value = null;
+      resizeForm.elements.y.value = null;
+      resizeForm.elements.size.value = null;
+    } else {
+      evt.preventDefault();
 
-    resizeForm.classList.add('invisible');
-    uploadForm.classList.remove('invisible');
+      cleanupResizer();
+      updateBackground();
+
+      resizeForm.classList.add('invisible');
+      uploadForm.classList.remove('invisible');
+    }
   };
 
   /**
