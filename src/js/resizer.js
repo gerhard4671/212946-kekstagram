@@ -1,3 +1,4 @@
+
 'use strict';
 
 (function() {
@@ -111,7 +112,7 @@
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
-      this._ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
       this._ctx.fillRect(
           displX,
           displY,
@@ -121,7 +122,7 @@
       this._ctx.fillRect(
           displX + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
           displY,
-          this._container.width-(this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
+          this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
           this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth
       );
 
@@ -129,50 +130,75 @@
           displX + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
           displY + this._container.height,
           this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
-          - this._container.height / 2 + this._resizeConstraint.side / 2  - this._ctx.lineWidth / 2
+          -this._container.height / 2 + this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2
       );
       this._ctx.fillRect(
           displX + this._container.width,
           displY + this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
-          - this._container.width / 2 + this._resizeConstraint.side / 2  - this._ctx.lineWidth / 2,
+          -this._container.width / 2 + this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2,
          this._resizeConstraint.side + this._ctx.lineWidth / 2
       );
 
 
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
-      this._ctx.strokeRect(
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-          this._resizeConstraint.side - this._ctx.lineWidth / 2,
-          this._resizeConstraint.side - this._ctx.lineWidth / 2);
-// Рамка в виде точек
-    var radius = 3;
-    var startAngle = 0;
-    var endAngle = 2*Math.PI;
-    var anticlockwise = true;
-    var startX = (-this._resizeConstraint.side / 2);
-    var endX = this._resizeConstraint.side/2;
-    var startY =  (-this._resizeConstraint.side / 2);
-    var endY =  this._resizeConstraint.side / 2;
-    this._ctx.fillStyle ="yellow";
+    //   this._ctx.strokeRect(
+    //       (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
+    //       (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
+    //       this._resizeConstraint.side - this._ctx.lineWidth / 2,
+    //       this._resizeConstraint.side - this._ctx.lineWidth / 2);
+// Рамка в виде ломанной
 
-    while (startX <= endX && startY <= endY) {
+      var startX1 = Math.floor(-this._resizeConstraint.side / 2);
+      var startY1 = Math.floor(-this._resizeConstraint.side / 2);
+      var endX1 = Math.floor(this._resizeConstraint.side / 2);
+      var endY1 = Math.floor(this._resizeConstraint.side / 2);
+      var deltaY1 = 5;
+      var deltaX1 = 5;
+      var startX2 = Math.floor(-this._resizeConstraint.side / 2);
+      var startY2 = Math.floor(-this._resizeConstraint.side / 2);
+      var endX2 = Math.floor(this._resizeConstraint.side / 2);
+      var deltaY2 = 5;
+      var deltaX2 = 5;
+      this._ctx.strokeStyle = 'yellow';
+      this._ctx.lineWidth = 3;
+
+      while(startX1 <= endX1 - 5 ) {
+        if (Math.abs(startY1) % 2 === 0) {
+          deltaY1 *= -1;
+        }
+        if (Math.abs(startX2) % 2 === 0) {
+          deltaX2 *= -1;
+        }
         this._ctx.beginPath();
-        this._ctx.arc(startX, (-this._resizeConstraint.side / 2), radius, startAngle, endAngle, anticlockwise);
-        this._ctx.fill();
+        this._ctx.moveTo(startX1, startY1);
+        this._ctx.lineTo(startX1 + deltaX1, startY1 + deltaY1);
+        this._ctx.stroke();
+
         this._ctx.beginPath();
-        this._ctx.arc(startX, endY, radius, startAngle, endAngle, anticlockwise);
-        this._ctx.fill();
+        this._ctx.moveTo(startX1, endY1);
+        this._ctx.lineTo(startX1 + deltaX1, endY1 - deltaY1);
+        this._ctx.stroke();
+
         this._ctx.beginPath();
-        this._ctx.arc( (-this._resizeConstraint.side / 2), startY, radius, startAngle, endAngle, anticlockwise);
-        this._ctx.fill();
+        this._ctx.moveTo(startX2, startY2);
+        this._ctx.lineTo(startX2 + deltaX2, startY2 + deltaY2);
+        this._ctx.stroke();
+
         this._ctx.beginPath();
-        this._ctx.arc(endX, startY, radius, startAngle, endAngle, anticlockwise);
-        this._ctx.fill();
-        startX += 10;
-        startY +=10;
-    }
+        this._ctx.moveTo(endX2, startY2);
+        this._ctx.lineTo(endX2 - deltaX2, startY2 + deltaY2);
+        this._ctx.stroke();
+
+        startX1 = startX1 + deltaX1;
+        startY1 = startY1 + deltaY1;
+        endY1 = endY1 - deltaY1;
+        startX2 = startX2 + deltaX2;
+        endX2 = endX2 - deltaX2;
+        startY2 = startY2 + deltaY2;
+        deltaY1 = 5;
+        deltaX2 = 5;
+      }
 
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
@@ -182,11 +208,11 @@
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
 
-      this._ctx.fillStyle = "#fff";
-      this._ctx.font = "12px Tahoma";
-      this._ctx.textAlign = "center";
+      this._ctx.fillStyle = '#fff';
+      this._ctx.font = '12px Tahoma';
+      this._ctx.textAlign = 'center';
       this._ctx.fillText(
-          " "+this._image.naturalWidth+" x "+this._image.naturalHeight+" ",
+          ' ' + this._image.naturalWidth + ' x ' + this._image.naturalHeight + ' ',
           this._container.width / 2,
           this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth - 12,
           this._resizeConstraint.side);
