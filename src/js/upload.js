@@ -40,6 +40,7 @@
    * @type {Resizer}
    */
   var currentResizer;
+  var imageSet = [];
 
 
   /**
@@ -74,13 +75,7 @@
    */
 
   var resizeFormIsValid = function() {
-    var leftPos = +resizeForm.elements.x.value;
-    var topPos = +resizeForm.elements.y.value;
-    var size = +resizeForm.elements.size.value;
-    var imageWidth = currentResizer._image.naturalWidth;
-    var imageHeight = currentResizer._image.naturalHeight;
-
-    if ( leftPos + size > imageWidth || topPos + size > imageHeight || topPos < 0 || leftPos < 0) {
+    if ( +leftPos.value + +size.value > imageSet[0] || +topPos.value + +size.value > imageSet[1] || +topPos.value < 0 || leftPos.value < 0) {
       submitBtn.disabled = true;
       return false;
     }
@@ -99,6 +94,37 @@
    */
   var resizeForm = document.forms['upload-resize'];
   var submitBtn = resizeForm.elements.fwd;
+  var leftPos = resizeForm.elements.x;
+  var topPos = resizeForm.elements.y;
+  var size = resizeForm.elements.size;
+
+
+
+  // обработчики инпутов
+
+  leftPos.oninput = function() {
+    if ( +leftPos.value + +size.value > imageSet[0] || +topPos.value + +size.value > imageSet[1] || +topPos.value < 0 || leftPos.value < 0) {
+      submitBtn.disabled = true;
+      return;
+    }
+    submitBtn.disabled = false;
+  };
+
+  topPos.oninput = function() {
+    if ( +leftPos.value + +size.value > imageSet[0] || +topPos.value + +size.value > imageSet[1] || +topPos.value < 0 || leftPos.value < 0) {
+      submitBtn.disabled = true;
+      return;
+    }
+    submitBtn.disabled = false;
+  };
+  size.oninput = function() {
+    if ( +leftPos.value + +size.value > imageSet[0] || +topPos.value + +size.value > imageSet[1] || +topPos.value < 0 || leftPos.value < 0) {
+      submitBtn.disabled = true;
+      return;
+    }
+    submitBtn.disabled = false;
+  };
+
 
   /**
    * Форма добавления фильтра.
@@ -153,6 +179,12 @@
    * @param {Event} evt
    */
   uploadForm.onchange = function(evt) {
+    imageSet = [];
+    submitBtn.disabled = false;
+    resizeForm.elements.x.value = null;
+    resizeForm.elements.y.value = null;
+    resizeForm.elements.size.value = null;
+
     var element = evt.target;
     if (element.id === 'upload-file') {
       // Проверка типа загружаемого файла, тип должен быть изображением
@@ -167,12 +199,21 @@
 
           currentResizer = new Resizer(fileReader.result);
           currentResizer.setElement(resizeForm);
+          var imageWidth = currentResizer._image.naturalWidth;
+          var imageHeight = currentResizer._image.naturalHeight;
+          imageSet.push(imageWidth, imageHeight);
+
+
+
+
+
           uploadMessage.classList.add('invisible');
 
           uploadForm.classList.add('invisible');
           resizeForm.classList.remove('invisible');
 
           hideMessage();
+
         };
 
         fileReader.readAsDataURL(element.files[0]);
@@ -189,21 +230,13 @@
    * @param {Event} evt
    */
   resizeForm.onreset = function(evt) {
+    evt.preventDefault();
 
-    if (!resizeFormIsValid()) {
-      submitBtn.disabled = false;
-      resizeForm.elements.x.value = null;
-      resizeForm.elements.y.value = null;
-      resizeForm.elements.size.value = null;
-    } else {
-      evt.preventDefault();
+    cleanupResizer();
+    updateBackground();
 
-      cleanupResizer();
-      updateBackground();
-
-      resizeForm.classList.add('invisible');
-      uploadForm.classList.remove('invisible');
-    }
+    resizeForm.classList.add('invisible');
+    uploadForm.classList.remove('invisible');
   };
 
   /**
