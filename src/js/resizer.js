@@ -99,6 +99,7 @@
       // Смещение первого штриха от начала линии.
     //   this._ctx.lineDashOffset = 7;
 
+
       // Сохранение состояния канваса.
       this._ctx.save();
 
@@ -110,34 +111,37 @@
       // Отрисовка изображения на холсте. Параметры задают изображение, которое
       // нужно отрисовать и координаты его верхнего левого угла.
       // Координаты задаются от центра холста.
+
+
       this._ctx.drawImage(this._image, displX, displY);
-
-      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-      this._ctx.fillRect(
-          displX,
-          displY,
-          this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
-          this._container.height
-      );
-      this._ctx.fillRect(
-          displX + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
-          displY,
-          this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
-          this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth
-      );
-
-      this._ctx.fillRect(
-          displX + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
-          displY + this._container.height,
-          this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
-          -this._container.height / 2 + this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2
-      );
-      this._ctx.fillRect(
-          displX + this._container.width,
-          displY + this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
-          -this._container.width / 2 + this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2,
-         this._resizeConstraint.side + this._ctx.lineWidth / 2
-      );
+      // this._ctx.save();
+      // //
+      // this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      // this._ctx.fillRect(
+      //     displX,
+      //     displY,
+      //     this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
+      //     this._container.height
+      // );
+      // this._ctx.fillRect(
+      //     displX + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
+      //     displY,
+      //     this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
+      //     this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth
+      // );
+      //
+      // this._ctx.fillRect(
+      //     displX + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
+      //     displY + this._container.height,
+      //     this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth),
+      //     -this._container.height / 2 + this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2
+      // );
+      // this._ctx.fillRect(
+      //     displX + this._container.width,
+      //     displY + this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth,
+      //     -this._container.width / 2 + this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2,
+      //    this._resizeConstraint.side + this._ctx.lineWidth / 2
+      // );
 
 
       // Отрисовка прямоугольника, обозначающего область изображения после
@@ -200,6 +204,8 @@
         deltaX2 = 5;
       }
 
+
+
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
       // следующий кадр рисовался с привычной системой координат, где точка
@@ -207,6 +213,34 @@
       // некорректно сработает даже очистка холста или нужно будет использовать
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
+
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      this._ctx.fillRect(
+          0,
+          0,
+          this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth - deltaX2,
+          this._container.height
+      );
+      this._ctx.fillRect(
+          0 + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth - deltaX2,
+          0,
+          this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth) + deltaX2,
+          this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth - deltaX2
+      );
+      this._ctx.fillRect(
+          0 + this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth - deltaX2,
+          0 + this._container.height,
+          this._container.width - (this._container.width / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth - deltaX2),
+          -this._container.height / 2 + this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2 + deltaX2
+      );
+      this._ctx.fillRect(
+          0 + this._container.width,
+          0 + this._container.height / 2 - this._resizeConstraint.side / 2 - this._ctx.lineWidth - deltaX2,
+          -this._container.width / 2 + this._resizeConstraint.side / 2 + this._ctx.lineWidth + deltaX2,
+         this._resizeConstraint.side + this._ctx.lineWidth + deltaX2 * 2
+      );
+
+
 
       this._ctx.fillStyle = '#fff';
       this._ctx.font = '12px Tahoma';
