@@ -69,24 +69,19 @@
     backgroundElement.style.backgroundImage = 'url(' + images[randomImageNumber] + ')';
   };
 
-var expireDate = function () {
-  var today = new Date();
-  today.setHours(0, 0, 0, 0);
+  var expireDate = function() {
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-  var dateOfGHbirth = new Date();
-  dateOfGHbirth.setDate(9);
-  dateOfGHbirth.setMonth(11);
-  dateOfGHbirth.setHours(0, 0, 0, 0);
-  if (today - dateOfGHbirth <= 0) {
-    dateOfGHbirth.setFullYear(dateOfGHbirth.getFullYear() - 1);
-  }
-  return Math.floor( (today - dateOfGHbirth) / (1000 * 60 * 60 * 24));
-}();
-
-  var filterForm = document.forms['upload-resize'];
-
-
-
+    var dateOfGHbirth = new Date();
+    dateOfGHbirth.setDate(9);
+    dateOfGHbirth.setMonth(11);
+    dateOfGHbirth.setHours(0, 0, 0, 0);
+    if (today - dateOfGHbirth <= 0) {
+      dateOfGHbirth.setFullYear(dateOfGHbirth.getFullYear() - 1);
+    }
+    return Math.floor( (today - dateOfGHbirth) / (1000 * 60 * 60 * 24));
+  }();
 
   /**
    * Проверяет, валидны ли данные, в форме кадрирования.
@@ -276,6 +271,7 @@ var expireDate = function () {
       }
 
       filterImage.src = image;
+      filterImage.className = 'filter-image-preview ' + 'filter-' + Cookies.get('filterSet');
 
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
@@ -312,7 +308,7 @@ var expireDate = function () {
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
    * выбранному значению в форме.
    */
-   var selectedFilter;
+  var selectedFilter;
   filterForm.onchange = function() {
     if (!filterMap) {
       // Ленивая инициализация. Объект не создается до тех пор, пока
@@ -326,13 +322,12 @@ var expireDate = function () {
       };
     }
 
-     selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
+    selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
       return item.checked;
     })[0].value;
 
-
-    Cookies.set('filterSet', '' + selectedFilter + '', { expires: 7, path: '' });
-    alert(Cookies.get('filterSet'));
+    Cookies.set('filterSet', '' + selectedFilter + '', { expires: expireDate});
+    // console.log(Cookies.get(""));
 
     // Cookies.set('upload-filter', '' + selectedFilter + '', { expires: 7 });
     // alert( Cookies.get("upload-filter") );
