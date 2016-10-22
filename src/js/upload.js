@@ -270,9 +270,9 @@
         thumbnails[i].style.backgroundImage = 'url(' + image + ')';
       }
 
-      filterImage.src = image;
-      filterImage.className = 'filter-image-preview ' + 'filter-' + Cookies.get('filterSet');
 
+      filterImage.src = image;
+      filterForm['upload-filter'].value = Cookies.get('upload-filter');
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
     }
@@ -326,11 +326,8 @@
       return item.checked;
     })[0].value;
 
-    Cookies.set('filterSet', '' + selectedFilter + '', { expires: expireDate});
-    // console.log(Cookies.get(""));
+    Cookies.set('upload-filter', '' + selectedFilter + '', { expires: expireDate});
 
-    // Cookies.set('upload-filter', '' + selectedFilter + '', { expires: 7 });
-    // alert( Cookies.get("upload-filter") );
 
 
     // Класс перезаписывается, а не обновляется через classList потому что нужно
