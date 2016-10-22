@@ -273,6 +273,8 @@
 
       filterImage.src = image;
       filterForm['upload-filter'].value = Cookies.get('upload-filter');
+      filterImage.className = 'filter-image-preview ' + 'filter-' + Cookies.get('upload-filter');
+
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
     }
