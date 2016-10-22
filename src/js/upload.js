@@ -272,8 +272,8 @@
 
 
       filterImage.src = image;
-      filterForm['upload-filter'].value = Cookies.get('upload-filter');
-      filterImage.className = 'filter-image-preview ' + 'filter-' + Cookies.get('upload-filter');
+      filterForm['upload-filter'].value = window.Cookies.get('upload-filter');
+      filterImage.className = 'filter-image-preview ' + 'filter-' + window.Cookies.get('upload-filter');
 
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
@@ -328,7 +328,7 @@
       return item.checked;
     })[0].value;
 
-    Cookies.set('upload-filter', '' + selectedFilter + '', { expires: expireDate});
+    window.Cookies.set('upload-filter', '' + selectedFilter + '', { expires: expireDate});
 
 
 
