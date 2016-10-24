@@ -218,10 +218,6 @@
           var imageHeight = currentResizer._image.naturalHeight;
           imageSet.push(imageWidth, imageHeight);
 
-
-
-
-
           uploadMessage.classList.add('invisible');
 
           uploadForm.classList.add('invisible');
