@@ -1,40 +1,7 @@
 'use strict';
 
 (function() {
-
-
-var filters = document.querySelector(".filters");
-var pictures = document.querySelector(".pictures");
-var template = document.querySelector("#picture-template");
-var templateContainer = 'content' in template ? template.content : template;
-
-filters.classList.add('hidden');
-
-var createPicture = function(pict) {
-
-    var pictureElement = templateContainer.querySelector('.picture').cloneNode(true);
-    var imgTag = pictureElement.querySelector('img');
-    pictureElement.querySelector('.picture-likes').textContent = pict.likes;
-    pictureElement.querySelector('.picture-comments').textContent = pict.comments;
-
-    var image = new Image();
-
-    image.onload = function(evt) {
-    imgTag.width = 182;
-    imgTag.height = 182;
-    imgTag.src = ' '+image.src+' ';
-    };
-
-    image.onerror = function() {
-    pictureElement.classList.add('picture-load-failure');
-    };
-
-    image.src = pict.url;
-    return pictureElement;
-};
-
-var renderImage = function() {
-    var data = [{
+  var data = [{
       "likes": 40,
       "comments": 12,
       "url": "photos/1.jpg"
@@ -139,16 +106,47 @@ var renderImage = function() {
       "comments": 11,
       "url": "photos/26.mp4",
       "preview": "photos/26.jpg"
-    }]
-  ;
+ }];
 
 
+  var filters = document.querySelector(".filters");
+  var pictures = document.querySelector(".pictures");
+  var template = document.querySelector("#picture-template");
+  var templateContainer = 'content' in template ? template.content : template;
+
+  filters.classList.add('hidden');
+
+  var createPicture = function(pict) {
+
+    var pictureElement = templateContainer.querySelector('.picture').cloneNode(true);
+    var imgTag = pictureElement.querySelector('img');
+    pictureElement.querySelector('.picture-likes').textContent = pict.likes;
+    pictureElement.querySelector('.picture-comments').textContent = pict.comments;
+
+    var image = new Image();
+
+    image.onload = function(evt) {
+      imgTag.width = 182;
+      imgTag.height = 182;
+      imgTag.src = String(image.src);
+    };
+
+    image.onerror = function() {
+      pictureElement.classList.add('picture-load-failure');
+    };
+
+    image.src = pict.url;
+    return pictureElement;
+  };
+
+  function renderImage(data) {
     data.forEach(function(pict) {
-        pictures.appendChild(createPicture(pict));
+      pictures.appendChild(createPicture(pict));
     });
+
     filters.classList.remove('hidden');
-}();
+  }
 
-
+  renderImage(data);
 
 })();
