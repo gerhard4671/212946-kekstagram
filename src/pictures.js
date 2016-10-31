@@ -5,8 +5,6 @@
   var pictures = document.querySelector(".pictures");
   var filters = document.querySelector(".filters");
   var template = document.querySelector("#picture-template");
-  var templateContainer = 'content' in template ? template.content : template;
-  var loadedData = null;
   var IAGE_LOAD_URL = 'http://localhost:1507/api/pictures';
 
   filters.classList.add('hidden');
@@ -17,10 +15,7 @@
       callbackName = 'cb' + Date.now();
     }
 
-    window[callbackName] = function(data) {
-      loadedData = data;
-      callback(data);
-    };
+    window[callbackName] = callback;
 
     var script = document.createElement('script');
     script.src = url + '?callback=' + callbackName;
@@ -28,7 +23,7 @@
   }
 
   load(IAGE_LOAD_URL, function(data) {
-    renderImage(loadedData);
+      renderImage(data);
   }, '__getData');
 
 
@@ -54,8 +49,8 @@
     return pictureElement;
   }
 
-  function renderImage(loadedData) {
-    loadedData.forEach(function(pict) {
+  function renderImage(data) {
+    data.forEach(function(pict) {
       pictures.appendChild(createPicture(pict));
     });
 
