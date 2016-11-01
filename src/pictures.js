@@ -5,7 +5,9 @@
   var pictures = document.querySelector(".pictures");
   var filters = document.querySelector(".filters");
   var template = document.querySelector("#picture-template");
-  var IAGE_LOAD_URL = 'http://localhost:1507/api/pictures';
+  var templateContainer = 'content' in template ? template.content : template;
+
+  var PAGE_LOAD_URL = '/api/pictures';
 
   filters.classList.add('hidden');
 
@@ -22,9 +24,7 @@
     document.body.appendChild(script);
   }
 
-  load(IAGE_LOAD_URL, function(data) {
-      renderImage(data);
-  }, '__getData');
+  load(PAGE_LOAD_URL, renderImage, '__getData');
 
 
   function createPicture(pict) {
