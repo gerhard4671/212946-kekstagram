@@ -3,33 +3,48 @@
 //Модуль - возвращает код функции создания фото
 define(['../js/galery.js'],
 function(galery) {
-  return function(pict, pictureNumber) {
-    var template = document.querySelector('#picture-template');
-    var templateContainer = 'content' in template ? template.content : template;
-    var pictureElement = templateContainer.querySelector('.picture').cloneNode(true);
-    var imgTag = pictureElement.querySelector('img');
-    pictureElement.querySelector('.picture-likes').textContent = pict.likes;
-    pictureElement.querySelector('.picture-comments').textContent = pict.comments;
 
-    var image = new Image();
+  var Picture = function(pict, pictureNumber) {
+    var self = this;
+    this.data = pict;
+    this.element = createPictureElement(pict, pictureNumber);
 
-    image.onload = function() {
-      imgTag.width = 182;
-      imgTag.height = 182;
-      imgTag.src = String(image.src);
-    };
-
-    image.onerror = function() {
-      pictureElement.classList.add('picture-load-failure');
-    };
-
-    image.src = pict.url;
-      // Запускаем галерию по нажати на фотку
-    pictureElement.onclick = function(evt) {
+    this.element.onclick = function(evt) {
       evt.preventDefault();
-      galery.show(pictureNumber);
+      if (evt.target === self.element.querySelector('img')) {
+        galery.show(pictureNumber);
+      }
     };
-    return pictureElement;
+
+    this.remove = function() {
+      self.element.onclick = null;
+    };
+  };
+return Picture;
+});
+
+
+function createPictureElement(pict, pictureNumber) {
+  var template = document.querySelector('#picture-template');
+  var templateContainer = 'content' in template ? template.content : template;
+  var pictureElement = templateContainer.querySelector('.picture').cloneNode(true);
+  var imgTag = pictureElement.querySelector('img');
+  pictureElement.querySelector('.picture-likes').textContent = pict.likes;
+  pictureElement.querySelector('.picture-comments').textContent = pict.comments;
+
+  var image = new Image();
+
+  image.onload = function() {
+    imgTag.width = 182;
+    imgTag.height = 182;
+    imgTag.src = String(image.src);
   };
 
-});
+  image.onerror = function() {
+    pictureElement.classList.add('picture-load-failure');
+  };
+
+  image.src = pict.url;
+
+  return pictureElement;
+}
