@@ -4,10 +4,11 @@
 define(['../js/galery.js'],
 function(galery) {
 
+  //Модуль - возвращает  Код функции конструктора
   var Picture = function(pict, pictureNumber) {
     var self = this;
     this.data = pict;
-    this.element = createPictureElement(pict, pictureNumber);
+    this.element = createPictureElement(pict);
 
     this.element.onclick = function(evt) {
       evt.preventDefault();
@@ -20,11 +21,11 @@ function(galery) {
       self.element.onclick = null;
     };
   };
-return Picture;
+  return Picture;
 });
 
-
-function createPictureElement(pict, pictureNumber) {
+// Функция createPictureElement отвечает за  создание DOM-Элемента
+function createPictureElement(pict) {
   var template = document.querySelector('#picture-template');
   var templateContainer = 'content' in template ? template.content : template;
   var pictureElement = templateContainer.querySelector('.picture').cloneNode(true);
