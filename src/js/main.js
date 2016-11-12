@@ -6,7 +6,12 @@ define([
   '../js/load',
   '../js/pictures'
 ], function(resizer, upload, load, pictures) {
+
   resizer();
   upload();
-  load('/api/pictures', pictures, '__getData');
+  load('/api/pictures', {
+    from: 0,
+    to: 12,
+    filter: 'filter-popular'
+  }, pictures );
 });
