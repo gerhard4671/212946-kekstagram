@@ -1,24 +1,27 @@
 'use strict';
 
 module.exports = function(list, filterID) {
-  switch(filterID) {
-    case 'filter-popular':
-      return list;
 
-    case 'filter-discussed':
-      return list.sort(function(a, b) {
-         return a.comments - b.comments;
-      });
-
-    case 'filter-new':
-      var filteredList = list.filter(function(image, i, arr) {
-        return (Date.now() - image.created)/(1000 * 60 * 60 *24) <= 3;
-      });
-      return filteredList.sort(function(a, b) {
-        return a.created - b.created;
-      });
-
+  if (filterID === 'filter-discussed') {
+    return list.sort(function(a, b) {
+      return b.comments -a.comments;
+    });
   }
-  return list;
 
+  if (filterID ==='filter-popular') {
+    return list.sort(function(a, b){
+      return b.likes - a.likes;
+    });
+  }
+
+  if (filterID === 'filter-new') {
+    var currTime = Date.now();
+    var filterByDate = list.filter(function(pict, num, arr) {
+      return ( currTime - arr[num].created ) <= 1000 * 60 * 60 * 24 *3;
+    });
+
+    return filterByDate.sort(function(a, b) {
+      return b.created - a.created;
+    });
+  }
 };

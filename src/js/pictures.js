@@ -10,12 +10,13 @@ function(Picture, galery, load) {
   var footer = document.querySelector('footer');
   var pictures = document.querySelector('.pictures');
   var filters = document.querySelector('.filters');
-  var lastCall = Date.now();
+  var picArray = [];
 
-  return function(data) {
 
-  var lastCall = Date.now();
-    window.addEventListener('scroll', function(evt) {
+  return function() {
+
+    var lastCall = Date.now();
+    window.addEventListener('scroll', function() {
 
       if(Date.now() - lastCall >= THROTTLE_TIMEOUT) {
         if (footer.getBoundingClientRect().bottom - window.innerHeight <= 100) {
@@ -25,13 +26,21 @@ function(Picture, galery, load) {
       }
     });
 
-    function renderPictires() {
-      data.forEach(function(pict, num) {
+    function renderPictires(loadedPictures) {
+      picArray = picArray.concat(loadedPictures);
+      if (picArray.length > loadedPictures.length) {
+        var picNum = picArray.length - loadedPictures.length;
+      }
+      loadedPictures.forEach(function(pict, num) {
+        if (picNum >= loadedPictures.length) {
+          num = picNum;
+        }
         var picturesListItem = new Picture(pict, num);
         pictures.appendChild(picturesListItem.element);
+        picNum++;
       });
+      galery.setPictures(picArray);
     }
-    renderPictires();
 
     function loadPictures(filter, pageNumber) {
       load('/api/pictures', {
@@ -39,6 +48,7 @@ function(Picture, galery, load) {
         to: pageNumber * picturesAtPage + picturesAtPage,
         filter: filter
       }, renderPictires);
+
     }
 
     function changeFilter(filterID) {
@@ -46,16 +56,20 @@ function(Picture, galery, load) {
       currentFilter = filterID;
       currentPage = 0;
       loadPictures(filterID, currentPage);
+
     }
 
     // Передаем в модуль галереи  данные с сервера о фотках
-    galery.setPictures(data);
-    filters.classList.remove('hidden');
+
 
     filters.addEventListener('change', function(evt) {
       if (evt.target.classList.contains('filters-radio')) {
+        picArray = [];
         changeFilter(evt.target.id);
       }
     }, true);
+
+    changeFilter('filter-popular');
+    filters.classList.remove('hidden');
   };
 });

@@ -2,12 +2,15 @@
 
 //Модуль - возвращает код функции load
 define(function() {
+
   function createGetParams(params) {
     var paramString = '';
     for(var prop in params) {
-      paramString += prop + '=' + params[prop] + '&';
+      if (params.hasOwnProperty(prop) ) {
+        paramString += prop + '=' + params[prop] + '&';
+      }
     }
-    return paramString.slice(0,-1);
+    return paramString.slice(0, -1);
   }
 
   return function(url, requestParams, callback) {
