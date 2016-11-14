@@ -1,6 +1,6 @@
 'use strict';
 
-define(['../js/picture', '../js/galery.js', '../js/load.js'],
+define(['./picture', './galery.js', './load.js'],
 function(Picture, galery, load) {
 
   var currentPage = 0;
@@ -15,16 +15,22 @@ function(Picture, galery, load) {
 
   return function() {
 
-    var lastCall = Date.now();
-    window.addEventListener('scroll', function() {
+    function throttle(method) {
+      clearTimeout(method.time);
+      method.time = setTimeout(function() {
+        method();
+      }, THROTTLE_TIMEOUT);
+    }
 
-      if(Date.now() - lastCall >= THROTTLE_TIMEOUT) {
-        if (footer.getBoundingClientRect().bottom - window.innerHeight <= 100) {
-          loadPictures(currentFilter, ++currentPage);
-        }
-        lastCall = Date.now();
-      }
+    window.addEventListener('scroll', function() {
+      throttle(checkToLoad);
     });
+
+    function checkToLoad() {
+      if (footer.getBoundingClientRect().bottom - window.innerHeight <= 100) {
+        loadPictures(currentFilter, ++currentPage);
+      }
+    }
 
     function renderPictires(loadedPictures) {
       picArray = picArray.concat(loadedPictures);
@@ -39,6 +45,7 @@ function(Picture, galery, load) {
         pictures.appendChild(picturesListItem.element);
         picNum++;
       });
+      checkToLoad();
       galery.setPictures(picArray);
     }
 
@@ -48,7 +55,6 @@ function(Picture, galery, load) {
         to: pageNumber * picturesAtPage + picturesAtPage,
         filter: filter
       }, renderPictires);
-
     }
 
     function changeFilter(filterID) {
@@ -56,11 +62,7 @@ function(Picture, galery, load) {
       currentFilter = filterID;
       currentPage = 0;
       loadPictures(filterID, currentPage);
-
     }
-
-    // Передаем в модуль галереи  данные с сервера о фотках
-
 
     filters.addEventListener('change', function(evt) {
       if (evt.target.classList.contains('filters-radio')) {

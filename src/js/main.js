@@ -2,9 +2,9 @@
 
 
 define([
-  '../js/resizer',
-  '../js/upload',
-  '../js/pictures'
+  './resizer',
+  './upload',
+  './pictures'
 ], function(resizer, upload, pictures) {
   resizer();
   upload();
