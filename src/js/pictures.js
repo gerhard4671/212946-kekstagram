@@ -49,7 +49,7 @@ function(Picture, galery, load) {
         pictures.appendChild(picturesListItem.element);
         picNum++;
       });
-      // checkToLoad();
+      checkToLoad();
       galery.setPictures(picArray);
     }
 
