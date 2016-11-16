@@ -15,16 +15,20 @@ function(Picture, galery, load) {
 
   return function() {
 
-    function throttle(method) {
-      clearTimeout(method.time);
-      method.time = setTimeout(function() {
-        method();
-      }, THROTTLE_TIMEOUT);
+    function throttle(func, wait) {
+      var timeout = null;
+
+      return function() {
+        window.clearTimeout(timeout);
+        timeout = window.setTimeout(function() {
+          func();
+        }, wait);
+      };
     }
 
-    window.addEventListener('scroll', function() {
-      throttle(checkToLoad);
-    });
+
+    window.addEventListener('scroll', throttle(checkToLoad, THROTTLE_TIMEOUT));
+
 
     function checkToLoad() {
       if (footer.getBoundingClientRect().bottom - window.innerHeight <= 100) {
@@ -45,7 +49,7 @@ function(Picture, galery, load) {
         pictures.appendChild(picturesListItem.element);
         picNum++;
       });
-      checkToLoad();
+      // checkToLoad();
       galery.setPictures(picArray);
     }
 
