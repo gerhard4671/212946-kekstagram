@@ -96,7 +96,7 @@ define(function() {
         dateOfGHbirth.setFullYear(dateOfGHbirth.getFullYear() - 1);
       }
       return Math.floor( (today - dateOfGHbirth) / (1000 * 60 * 60 * 24));
-    }();
+    };
 
     /**
      * Проверяет, валидны ли данные, в форме кадрирования.
@@ -104,7 +104,7 @@ define(function() {
      */
 
     var resizeFormIsValid = function() {
-      if (+leftPos.value + (+size.value) > imageSet[0] || +topPos.value + (+size.value) > imageSet[1] || +topPos.value < 0 || +leftPos.value < 0) {
+      if (checkValues()) {
         submitBtn.disabled = true;
         return false;
       }
@@ -127,9 +127,13 @@ define(function() {
     var topPos = resizeForm.elements.y;
     var size = resizeForm.elements.size;
 
+    function checkValues() {
+      return +leftPos.value + (+size.value) > imageSet[0] || +topPos.value + (+size.value) > imageSet[1] || +topPos.value < 0 || +leftPos.value < 0;
+    }
+
 
     function checkInputs() {
-      if ( +leftPos.value + (+size.value) > imageSet[0] || +topPos.value + (+size.value) > imageSet[1] || +topPos.value < 0 || +leftPos.value < 0) {
+      if (checkValues()) {
         submitBtn.disabled = true;
         return;
       }
@@ -316,7 +320,7 @@ define(function() {
         return item.checked;
       })[0].value;
 
-      window.Cookies.set('upload-filter', '' + selectedFilter + '', { expires: expireDate});
+      window.Cookies.set('upload-filter', '' + selectedFilter + '', { expires: expireDate()});
 
       // Класс перезаписывается, а не обновляется через classList потому что нужно
       // убрать предыдущий примененный класс. Для этого нужно или запоминать его
