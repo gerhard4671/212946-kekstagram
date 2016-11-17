@@ -84,19 +84,7 @@ define(function() {
       backgroundElement.style.backgroundImage = 'url(' + images[randomImageNumber] + ')';
     };
 
-    var expireDate = function() {
-      var today = new Date();
-      today.setHours(0, 0, 0, 0);
 
-      var dateOfGHbirth = new Date();
-      dateOfGHbirth.setDate(9);
-      dateOfGHbirth.setMonth(11);
-      dateOfGHbirth.setHours(0, 0, 0, 0);
-      if (today - dateOfGHbirth <= 0) {
-        dateOfGHbirth.setFullYear(dateOfGHbirth.getFullYear() - 1);
-      }
-      return Math.floor( (today - dateOfGHbirth) / (1000 * 60 * 60 * 24));
-    };
 
     /**
      * Проверяет, валидны ли данные, в форме кадрирования.
@@ -280,8 +268,8 @@ define(function() {
           }
 
           filterImage.src = image;
-          filterForm['upload-filter'].value = window.Cookies.get('upload-filter');
-          filterImage.className = 'filter-image-preview ' + 'filter-' + window.Cookies.get('upload-filter');
+          filterForm['upload-filter'].value = localStorage.getItem('upload-filter');
+          filterImage.className = 'filter-image-preview ' + 'filter-' + localStorage.getItem('upload-filter');
 
           resizeForm.classList.add('invisible');
           filterForm.classList.remove('invisible');
@@ -320,7 +308,7 @@ define(function() {
         return item.checked;
       })[0].value;
 
-      window.Cookies.set('upload-filter', '' + selectedFilter + '', { expires: expireDate()});
+      localStorage.setItem('upload-filter', String(selectedFilter));
 
       // Класс перезаписывается, а не обновляется через classList потому что нужно
       // убрать предыдущий примененный класс. Для этого нужно или запоминать его
