@@ -6,7 +6,8 @@ function(Picture, galery, load) {
   var currentPage = 0;
   var THROTTLE_TIMEOUT = 100;
   var picturesAtPage = 12;
-  var currentFilter = 'filter-popular';
+  var currentFilter = null;
+  var preSetFilter = localStorage.getItem('savedFilter') || 'filter-popular';
   var footer = document.querySelector('footer');
   var pictures = document.querySelector('.pictures');
   var filters = document.querySelector('.filters');
@@ -66,16 +67,20 @@ function(Picture, galery, load) {
       currentFilter = filterID;
       currentPage = 0;
       loadPictures(filterID, currentPage);
+      localStorage.setItem('savedFilter', String(filterID));
     }
 
     filters.addEventListener('change', function(evt) {
       if (evt.target.classList.contains('filters-radio')) {
         picArray = [];
         changeFilter(evt.target.id);
+        // localStorage.setItem('savedFilter', String(evt.target.id));
       }
     }, true);
 
-    changeFilter('filter-popular');
+    changeFilter(preSetFilter);
+    filters.querySelector('#' + localStorage.getItem('savedFilter')).setAttribute('checked', 'checked');
     filters.classList.remove('hidden');
+
   };
 });
