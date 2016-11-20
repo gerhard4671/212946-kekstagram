@@ -50,7 +50,7 @@ define(function() {
   };
 
   Galery.prototype.removeHandlers = function() {
-    this.overlayClose.removeEventListener('click', this.clickHandler);
+    this.overlay.removeEventListener('click', this.clickHandler);
   };
 
 // Метод галереи setActivePicture - Проверяем если передан последний элемент в массиве pictures - то ставим активный элемент = 0
