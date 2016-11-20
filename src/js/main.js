@@ -4,7 +4,7 @@
 define([
   './resizer',
   './upload',
-  './pictures'
+  './pictures',
 ], function(resizer, upload, pictures) {
   resizer();
   upload();

@@ -1,8 +1,8 @@
 'use strict';
 
 //Модуль - возвращает код функции создания фото
-define(['./galery'],
-function(galery) {
+define(['./galery', './inherit', './base-component'],
+function(galery, inherit, baseComponent) {
 
   //Модуль - возвращает  Код функции конструктора
   var Picture = function(pict, pictureNumber) {
@@ -10,11 +10,14 @@ function(galery) {
     this.pictureNumber = pictureNumber;
 
     this.element = this.createPictureElement(pict);
+    baseComponent.call(this);
 
     this.galeryShow = this.galeryShow.bind(this);
     this.element.addEventListener('click', this.galeryShow);
 
   };
+
+  inherit(Picture, baseComponent);
 
   Picture.prototype.galeryShow = function(evt) {
     evt.preventDefault();
