@@ -102,14 +102,6 @@ define(function() {
      * @return {boolean}
      */
 
-    // var resizeFormIsValid = function() {
-    //   if (checkValues()) {
-    //     submitBtn.disabled = true;
-    //     return false;
-    //   }
-    //   return true;
-    // };
-
     /**
      * Форма загрузки изображения.
      * @type {HTMLFormElement}
