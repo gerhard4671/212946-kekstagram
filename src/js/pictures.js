@@ -49,7 +49,6 @@ function(Picture, galery, load) {
         var picturesListItem = new Picture(pict, num);
         pictures.appendChild(picturesListItem.element);
         picNum++;
-        console.dir(picturesListItem);
       });
       checkToLoad();
       galery.setPictures(picArray);
@@ -75,12 +74,10 @@ function(Picture, galery, load) {
       if (evt.target.classList.contains('filters-radio')) {
         picArray = [];
         changeFilter(evt.target.id);
-        // localStorage.setItem('savedFilter', String(evt.target.id));
       }
     }, true);
 
     changeFilter(preSetFilter);
-    console.dir(galery);
     filters.querySelector('#' + localStorage.getItem('savedFilter')).setAttribute('checked', 'checked');
     filters.classList.remove('hidden');
 

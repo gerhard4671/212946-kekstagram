@@ -102,13 +102,13 @@ define(function() {
      * @return {boolean}
      */
 
-    var resizeFormIsValid = function() {
-      if (checkValues()) {
-        submitBtn.disabled = true;
-        return false;
-      }
-      return true;
-    };
+    // var resizeFormIsValid = function() {
+    //   if (checkValues()) {
+    //     submitBtn.disabled = true;
+    //     return false;
+    //   }
+    //   return true;
+    // };
 
     /**
      * Форма загрузки изображения.
@@ -134,9 +134,10 @@ define(function() {
     function checkInputs() {
       if (checkValues()) {
         submitBtn.disabled = true;
-        return;
+        return false;
       }
       submitBtn.disabled = false;
+      return true;
     }
     // обработчик инпутов в resizeForm
     resizeForm.addEventListener('input', function(evt) {
@@ -218,7 +219,7 @@ define(function() {
 
           fileReader.addEventListener('load', function() {
             cleanupResizer();
-            currentResizer = new Resizer(fileReader.result);
+            currentResizer = new window.Resizer(fileReader.result);
             currentResizer.setElement(resizeForm);
             var imageWidth = currentResizer._image.naturalWidth;
             var imageHeight = currentResizer._image.naturalHeight;
@@ -268,9 +269,9 @@ define(function() {
      */
 
     document.body.addEventListener('submit', function(evt) {
+      evt.preventDefault();
       if (evt.target === resizeForm) {
-        evt.preventDefault();
-        if (resizeFormIsValid()) {
+        if (checkInputs()) {
           var image = currentResizer.exportImage().src;
 
           var thumbnails = filterForm.querySelectorAll('.upload-filter-preview');
@@ -284,9 +285,9 @@ define(function() {
 
           resizeForm.classList.add('invisible');
           filterForm.classList.remove('invisible');
+          evt.preventDefault();
         }
       } else if (evt.target === filterForm) {
-        evt.preventDefault();
 
         cleanupResizer();
         updateBackground();

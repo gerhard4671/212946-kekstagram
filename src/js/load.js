@@ -1,6 +1,5 @@
 'use strict';
 
-//Модуль - возвращает код функции load
 define(function() {
 
   function createGetParams(params) {
@@ -18,12 +17,8 @@ define(function() {
     xhr.open('GET', url + '?' + createGetParams(requestParams));
 
     xhr.addEventListener('load', function(evt) {
-      try {
-        var loadedData = JSON.parse(evt.target.response);
-        callback(loadedData);
-      } catch(err) {
-        console.log(err);
-      }
+      var loadedData = JSON.parse(evt.target.response);
+      callback(loadedData);
     });
 
     xhr.send();

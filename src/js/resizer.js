@@ -7,7 +7,8 @@ define(function() {
      * @param {string} image
      */
     var Resizer = function(image) {
-      // Изображение, с которым будет вестись работа.
+
+
       this._image = new Image();
       this._image.src = image;
 
@@ -398,6 +399,7 @@ define(function() {
     };
 
     window.Resizer = Resizer;
+    // return Resizer;
   };
 
 });

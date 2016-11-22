@@ -1,10 +1,8 @@
 'use strict';
 
-//Модуль - возвращает код функции создания фото
 define(['./galery', './inherit', './base-component'],
 function(galery, inherit, baseComponent) {
 
-  //Модуль - возвращает  Код функции конструктора
   var Picture = function(pict, pictureNumber) {
     this.data = pict;
     this.pictureNumber = pictureNumber;
@@ -55,7 +53,6 @@ function(galery, inherit, baseComponent) {
 
     return pictureElement;
   };
-
 
   return Picture;
 
